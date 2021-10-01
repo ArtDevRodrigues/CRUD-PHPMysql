@@ -10,15 +10,14 @@ primary key(user_id)
 
 create table note(
 id_ bigint auto_increment not null,
-title_ varchar(100),
-desc_ varchar(300),
+title_ varchar(300),
+desc_ varchar(900),
 is_finished boolean,
 user_id bigint,
 constraint fk_agenda_user_ foreign key (user_id) references agenda.user_ (user_id),
 primary key(id_,user_id) 
-
 );
-/*
+/* TODO caso der tempo
 create table task_list(
 id_ bigint auto_increment not null,
 title_ varchar(100),
@@ -34,14 +33,17 @@ primary key(id_,user_id)
 */
 -- drop table note;
 -- drop table user_;
+-- Testes Para o Sistema
+/* 
 insert into user_(user_name,user_pass) values("usuario01","1234"),("usuario02","5678"),("usuario03","9012");
 insert into note(title_,desc_,is_finished,user_id) values ("compras"," fazer as compras, nao esqueser de deixar o gato no petshop ",false,1),
 ("Trabalho","colocar o sistema no ar",true,3),("Para o Final de Semana","Laver o carro e a moto",false,2);
-
+insert into note(title_,desc_,is_finished,user_id) value('lnkabobofoj scoiaac','bchbch auhachuu bachucbuhbd',false,3);
 delete from user_ where user_id=2;
-delete from note where id_ = 3;
+delete from note where user_id = 3;
 select * from user_;
 select * from note;
-
 select * from user_ where user_id = 1;
 
+select * from user_ where user_name like "";
+*/

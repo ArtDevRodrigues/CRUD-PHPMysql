@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,9 +14,11 @@
         $userPass = $_POST['pass'];
         //echo "$userId";
         $canIn = false;
-        
+        $idFun = intval($_POST['idfunction']);
+        $userName = $_POST['name'];
         include("taskDAO.php");
-
+        include("userDAO.php");
+        
         // User
         $datasUser = null;
         $resultUser = null;
@@ -25,6 +27,9 @@
             $resultUser = $mysqli->query($sql1);
             $datasUser = $resultUser->fetch_assoc();
             
+        }else{
+            $userId = $code;
+            $userPass = $_POST['pass'];
         }
         $is_Users_ok = false;
         
@@ -79,8 +84,7 @@
             </div>
             <form action="index.php" method="POST">
                 <div class="modal-body">
-
-                <input class="form-control" type="text" placeholder="Indentificador" name="id">
+                <input type="hidden" name="idfunction" value="4">
                 <input class="form-control" type="text" placeholder="Nome" name="name">
                 <input class="form-control" type="password" size="20" placeholder="Senha" name="pass">
 
@@ -110,7 +114,7 @@
             <?php 
             echo "<input type='hidden' name='id' value='$userId'>"; 
             echo "<input type='hidden' name='pass' value='$userPass'>"; 
-            echo "<input type='hidden' name='idFunction' value='1'><br>";?>
+            echo "<input type='hidden' name='idfunction' value='1'><br>";?>
             
             </div>
             <div class="modal-footer">
@@ -121,6 +125,44 @@
         </form>
     </div>
 </div>
+<!-- PropUser-->
+<div class="modal fade" id="propUser" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+            <form action="index.php" method="POST">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Perfil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+            <?php 
+            $n = $datasUser['user_name'];
+            echo "<input class='form-control' type='text' name='id' value='$userId'>"; 
+            echo "<input class='form-control' type='text' name='name' value='$n'>"; 
+            echo "<input class='form-control' type='text' name='pass' value='$userPass'>"; 
+            echo "<input type='hidden' name='idfunction' value='5'><br>";?>
+            
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button class="btn btn-primary">Atualizar</button>
+                <form class="row" action="index.php" method="POST">
+                    <?php
+                    echo "<input type='hidden' name='idfunction' value='6'><br>";
+                    echo "<input type='hidden' name='id' value='$userId'>";
+                    echo "<input type='hidden' name='pass' value='$userPass'>";
+                    echo "<input type='hidden' name='idTask' value='$id'>";?>
+                    <input type="submit" class="btn btn-primary mb-2" name="Apagar" value="Apagar"> 
+                </form>
+            </div>
+            </div>
+        </form>
+        
+                
+           
+    </div>
+</div>
 
 <div class="container">
     <?php if ($is_Users_ok) {?>
@@ -128,7 +170,12 @@
             <div class="row">
                 <div class="col"></div>
                 <div class="col-8"><h2>Lista de tarefas Pessoal Usuario(a): <?php echo $datasUser['user_name']; ?></h2></div>
-                <div class="col"><form class="text-center" action="index.php" method="POST"><input  type='hidden' name='id' value=''><input type='hidden' name='pass' value=''><button class="btn btn-primary">  Sair   </button></form></div>
+                <div class="col">
+                    <div class="row">
+                        <div class="col"><form class="" action="index.php" method="POST"><input  type='hidden' name='id' value=''><input type='hidden' name='pass' value=''><button class="btn btn-primary">  Sair   </button></form></div>
+                        <div class="col"><button class="btn btn-primary mb-3" style="height: 70%;" type="button" data-bs-toggle="modal" data-bs-target="#propUser">Perfil</button></div>
+                    </div>
+                </div>
             </div>
         </div>
     <?php }else{ ?>
@@ -191,7 +238,7 @@
                             <div class="modal-body">
                             <?php
                                 echo "<input class='form-control' type='text' placeholder='Titulo' name='title' value='$title'><br>";
-                                echo "<input type='hidden' name='idFunction' value='2'><br>";
+                                echo "<input type='hidden' name='idfunction' value='2'><br>";
                                 echo "<input type='hidden' name='id' value='$userId'>";
                                 echo "<input type='hidden' name='pass' value='$userPass'>";
                                 echo "<input type='hidden' name='idTask' value='$id'>";
@@ -211,7 +258,7 @@
             <div >
                 <form class="row" action="index.php" method="POST">
                     <?php
-                    echo "<input type='hidden' name='idFunction' value='3'><br>";
+                    echo "<input type='hidden' name='idfunction' value='3'><br>";
                     echo "<input type='hidden' name='id' value='$userId'>";
                     echo "<input type='hidden' name='pass' value='$userPass'>";
                     echo "<input type='hidden' name='idTask' value='$id'>";?>
